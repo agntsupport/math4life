@@ -1,3 +1,21 @@
+FROM node:18-alpine AS development
+
+WORKDIR /app
+
+# Install dependencies
+RUN apk add --no-cache python3 make g++
+
+# Copy package files
+COPY package*.json ./
+RUN npm install
+
+# Copy source code
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "3000"]
+
 FROM node:18-alpine AS builder
 
 # Install build dependencies

@@ -4,11 +4,11 @@
   "version": "1.0.0",
   "repository": "https://github.com/agntsupport/math4life",
   "branch": "main",
-  "buildCommand": "docker-compose -f docker-compose.prod.yml build",
-  "startCommand": "docker-compose -f docker-compose.prod.yml up -d",
-  "stopCommand": "docker-compose -f docker-compose.prod.yml down",
+  "buildCommand": "docker-compose -f docker-compose.dev-public.yml build --no-cache",
+  "startCommand": "docker-compose -f docker-compose.dev-public.yml up -d",
+  "stopCommand": "docker-compose -f docker-compose.dev-public.yml down",
   "healthCheck": {
-    "path": "/health",
+    "path": "/api/health",
     "interval": 30,
     "timeout": 10,
     "retries": 3
@@ -23,23 +23,25 @@
     "FRONTEND_URL": "https://{{DOMAIN}}",
     "LOG_LEVEL": "info"
   },
-  "domains": [
-    {
-      "name": "math4life.agnt.support",
-      "ssl": true,
-      "redirectWww": false
-    }
-  ],
+  "domains": [],
   "ports": [
     {
-      "internal": 80,
-      "external": 80,
-      "protocol": "http"
+      "internal": 3000,
+      "external": 3000,
+      "protocol": "http",
+      "service": "frontend"
     },
     {
-      "internal": 443,
-      "external": 443,
-      "protocol": "https"
+      "internal": 4000,
+      "external": 4000,
+      "protocol": "http",
+      "service": "backend"
+    },
+    {
+      "internal": 80,
+      "external": 8080,
+      "protocol": "http",
+      "service": "nginx"
     }
   ],
   "volumes": [

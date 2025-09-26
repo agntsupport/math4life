@@ -6,6 +6,8 @@ services:
       context: ./frontend
       target: production
     container_name: math4life-frontend-prod
+    ports:
+      - "3000:3000"
     environment:
       - VITE_API_URL=/api
     networks:
@@ -17,6 +19,8 @@ services:
       context: ./backend
       target: production
     container_name: math4life-backend-prod
+    ports:
+      - "4000:4000"
     environment:
       - NODE_ENV=production
       - PORT=4000

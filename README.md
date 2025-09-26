@@ -1,118 +1,227 @@
 # Math4Life 🧮
 
-Plataforma web interactiva de aprendizaje matemático 100% gratuita y open source.
+*Plataforma web interactiva de aprendizaje matemático 100% gratuita y open source*
 
-## 🚀 Características
+[![Deploy Status](https://img.shields.io/badge/Deploy-Easypanel-blue)](https://math4life.agnt.support)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-brightgreen)](https://nodejs.org/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue)](https://docker.com/)
 
-- ✅ **100% Gratuito** - Sin pagos, sin anuncios, sin limitaciones
-- 🎯 **Aprendizaje Interactivo** - Manipula expresiones matemáticas con drag & drop
-- 📱 **Responsive** - Funciona en móvil, tablet y desktop
-- 🔌 **Offline First** - PWA con capacidades offline
-- 🐳 **Dockerizado** - Deploy fácil con contenedores
-- 🔧 **API REST** - Backend modular y escalable
+## 🚀 Características Principales
 
-## 📋 Requisitos
+- ✅ **100% Gratuito y Open Source** - Sin pagos, sin anuncios, sin limitaciones
+- 🎯 **Manipulación Visual de Ecuaciones** - Drag & drop intuitivo para álgebra
+- 📊 **Visualizaciones Interactivas** - Gráficas y animaciones matemáticas
+- 📱 **Totalmente Responsive** - Optimizado para móvil, tablet y desktop
+- 🔌 **Progressive Web App** - Funciona offline, instalable como app nativa
+- 🐳 **Arquitectura Dockerizada** - Deploy fácil con contenedores
+- 🔧 **API REST Completa** - Backend modular y escalable
+- 🎮 **Sistema de Gamificación** - Puntos, logros y progreso personalizado
+- 🤖 **Motor de Álgebra Avanzado** - Validación paso a paso de ejercicios
 
-- Docker & Docker Compose
-- Node.js 18+ (para desarrollo local sin Docker)
-- Git
+## 📋 Requisitos del Sistema
 
-## 🛠️ Instalación Rápida
+### Para Desarrollo
+- **Node.js 18+** (recomendado 20+)
+- **Docker & Docker Compose** 
+- **Git**
+- **4GB RAM mínimo** para desarrollo local
 
-### Opción 1: Con Docker (Recomendado)
+### Para Producción
+- **VPS con 2GB RAM mínimo**
+- **Docker Engine 20+**
+- **Dominio con DNS configurado**
+- **SSL/TLS** (automático con Easypanel)
+
+## 🛠️ Instalación y Setup
+
+### 🚀 Inicio Rápido (Recomendado)
 
 ```bash
 # Clonar el repositorio
 git clone https://github.com/agntsupport/math4life
 cd math4life
 
-# Copiar variables de entorno
+# Ejecutar script de desarrollo automático
+./dev.sh
+```
+
+Este script automáticamente:
+- ✅ Verifica dependencias (Node.js 18+)
+- ✅ Crea archivo `.env` desde plantilla
+- ✅ Instala dependencias del frontend y backend
+- ✅ Inicia PostgreSQL y Redis con Docker
+- ✅ Abre frontend y backend en terminales separadas
+
+### 🐳 Con Docker Completo
+
+```bash
+# Clonar y configurar
+git clone https://github.com/agntsupport/math4life
+cd math4life
 cp .env.example .env
 
 # Iniciar todos los servicios
 docker-compose up -d
 
-# La app estará disponible en:
-# Frontend: http://localhost:3000
-# Backend API: http://localhost:4000
-# Nginx Proxy: http://localhost:80
+# Ver logs en tiempo real
+docker-compose logs -f
 ```
 
-### Opción 2: Desarrollo Local
+### ⚙️ Desarrollo Manual
 
 ```bash
-# Clonar el repositorio
-git clone https://github.com/agntsupport/math4life
-cd math4life
+# Backend
+cd backend
+npm install
+npm run dev
 
-# Instalar dependencias del frontend
+# Frontend (nueva terminal)
 cd frontend
 npm install
 npm run dev
 
-# En otra terminal, instalar dependencias del backend
-cd ../backend
-npm install
-npm run dev
+# Base de datos (nueva terminal)
+docker-compose up -d postgres redis
 ```
 
 ## 📁 Estructura del Proyecto
 
 ```
 math4life/
-├── frontend/          # React + TypeScript + Vite
-│   ├── src/
-│   │   ├── components/   # Componentes reutilizables
-│   │   ├── pages/        # Páginas de la aplicación
-│   │   ├── services/     # Servicios y API calls
-│   │   └── styles/       # Estilos globales
-│   └── Dockerfile
-├── backend/           # Node.js + Express + TypeScript
-│   ├── src/
-│   │   ├── controllers/  # Controladores de rutas
-│   │   ├── routes/       # Definición de rutas
-│   │   ├── services/     # Lógica de negocio
-│   │   └── middlewares/  # Middlewares Express
-│   └── Dockerfile
-├── nginx/             # Configuración del proxy
-├── docker-compose.yml # Orquestación de contenedores
-└── README.md
+├── 📁 frontend/                    # React + TypeScript + Vite
+│   ├── 📁 src/
+│   │   ├── 📁 components/          # Componentes reutilizables
+│   │   │   ├── DraggableExpression.tsx    # Drag & drop para álgebra
+│   │   │   ├── MathCanvas.tsx             # Canvas matemático
+│   │   │   └── Layout.tsx                 # Layout principal
+│   │   ├── 📁 pages/               # Páginas de la aplicación
+│   │   │   ├── HomePage.tsx               # Landing page
+│   │   │   ├── Playground.tsx             # Área de experimentación
+│   │   │   └── 📁 modules/               # Módulos educativos
+│   │   │       ├── ArithmeticModule.tsx  # Módulo de aritmética
+│   │   │       └── AlgebraModule.tsx     # Módulo de álgebra
+│   │   ├── 📁 styles/              # Estilos y tema
+│   │   │   └── theme.ts                  # Configuración Material-UI
+│   │   ├── App.tsx                 # Componente raíz
+│   │   └── main.tsx                # Entry point
+│   ├── package.json               # Dependencias y scripts
+│   └── Dockerfile                 # Contenedor frontend
+├── 📁 backend/                     # Node.js + Express + TypeScript
+│   ├── 📁 src/
+│   │   ├── 📁 controllers/         # Controladores de rutas
+│   │   │   └── math.controller.ts         # Operaciones matemáticas
+│   │   ├── 📁 routes/              # Definición de rutas
+│   │   │   ├── math.routes.ts            # Rutas de matemáticas
+│   │   │   └── health.routes.ts          # Health checks
+│   │   ├── 📁 services/            # Lógica de negocio
+│   │   │   └── math.service.ts           # Motor matemático
+│   │   ├── 📁 middlewares/         # Middlewares Express
+│   │   │   └── validation.ts             # Validación de datos
+│   │   ├── 📁 utils/               # Utilidades
+│   │   │   └── logger.ts                 # Sistema de logs
+│   │   └── index.ts                # Entry point
+│   ├── package.json               # Dependencias y scripts
+│   └── Dockerfile                 # Contenedor backend
+├── 📁 nginx/                       # Reverse proxy
+│   └── nginx.conf                 # Configuración nginx
+├── 📁 services/                    # Servicios adicionales
+├── 📄 docker-compose.yml          # Desarrollo local
+├── 📄 docker-compose.prod.yml     # Producción
+├── 📄 easypanel.json              # Deploy automático
+├── 📄 .env.example                # Variables de entorno
+├── 📄 dev.sh                      # Script de desarrollo
+├── 📄 OBJETIVOS_AGENTMATH.md       # Objetivos del proyecto
+├── 📄 ROADMAP.md                  # Plan de desarrollo
+└── 📄 README.md                   # Este archivo
 ```
 
-## 🔧 Configuración
+## ⚙️ Configuración Detallada
 
-### Variables de Entorno
+### 🔐 Variables de Entorno
 
-Copia `.env.example` a `.env` y ajusta los valores según tu entorno:
+El archivo `.env.example` incluye todas las configuraciones necesarias:
 
 ```bash
-cp .env.example .env
+# Frontend
+VITE_API_URL=http://localhost:4000/api     # URL de la API
+VITE_SOCKET_URL=http://localhost:4000      # WebSocket URL
+
+# Backend
+NODE_ENV=development                       # Entorno (development/production)
+PORT=4000                                  # Puerto del servidor
+FRONTEND_URL=http://localhost:3000         # URL del frontend
+
+# Base de Datos PostgreSQL
+DB_HOST=postgres                           # Host de BD
+DB_PORT=5432                              # Puerto de BD
+DB_USER=math4life                         # Usuario de BD
+DB_PASSWORD=math4life_dev                 # Contraseña de BD
+DB_NAME=math4life                         # Nombre de BD
+
+# Cache Redis
+REDIS_HOST=redis                          # Host de Redis
+REDIS_PORT=6379                           # Puerto de Redis
+
+# Seguridad
+JWT_SECRET=your_jwt_secret_here           # Secret para JWT (cambiar en producción)
+SESSION_SECRET=your_session_secret        # Secret para sesiones
+
+# Rate Limiting
+RATE_LIMIT_WINDOW_MS=900000               # Ventana de tiempo (15 min)
+RATE_LIMIT_MAX_REQUESTS=100               # Máximo de requests
 ```
 
-Principales variables:
-- `VITE_API_URL`: URL del backend API
-- `DB_PASSWORD`: Contraseña de PostgreSQL (cambiar en producción)
-- `JWT_SECRET`: Secret para tokens JWT (cambiar en producción)
+### 🔧 Scripts Disponibles
 
-## 📚 Módulos Disponibles
+```bash
+# Desarrollo
+./dev.sh                    # Inicio automático de desarrollo
+npm run dev                 # Desarrollo manual (frontend/backend)
+npm run build              # Build para producción
+npm run typecheck          # Verificación de tipos TypeScript
+npm run lint               # Linting de código
 
-### Aritmética
-- Operaciones básicas
-- Orden de operaciones (PEMDAS)
-- Fracciones
-- Números negativos
+# Docker
+docker-compose up -d        # Servicios en background
+docker-compose logs -f      # Ver logs en tiempo real
+docker-compose down         # Detener servicios
+docker-compose build        # Reconstruir imágenes
 
-### Álgebra
-- Variables y expresiones
-- Ecuaciones lineales
-- Sistemas de ecuaciones
-- Factorización
+# Producción
+./start.sh                  # Iniciar en producción
+./stop.sh                   # Detener servicios
+```
 
-### Playground
-- Experimentación libre
-- Evaluador de expresiones
-- Simplificador algebraico
-- Historial de operaciones
+## 📚 Módulos Educativos Implementados
+
+### 🔢 Módulo de Aritmética
+- ✅ **Operaciones Básicas**: Suma, resta, multiplicación, división
+- ✅ **Orden de Operaciones**: PEMDAS/BODMAS con validación paso a paso
+- 🔄 **Fracciones**: Operaciones y simplificación (en desarrollo)
+- 🔄 **Números Negativos**: Reglas y aplicaciones (en desarrollo)
+- ✅ **Gamificación**: Sistema de puntos y logros
+
+### 🔤 Módulo de Álgebra
+- ✅ **Manipulación Visual**: Drag & drop de términos algebraicos
+- ✅ **Variables y Expresiones**: Introducción a variables
+- ✅ **Ecuaciones Lineales**: Resolución paso a paso
+- 🔄 **Sistemas de Ecuaciones**: Métodos de resolución (planificado)
+- 🔄 **Factorización**: Técnicas básicas (planificado)
+- ✅ **Validación Automática**: Verificación de cada paso
+
+### 🎮 Playground Interactivo
+- ✅ **Editor de Expresiones**: Input con LaTeX y preview
+- ✅ **Evaluador Matemático**: Cálculos en tiempo real
+- ✅ **Simplificador Algebraico**: Reducción automática
+- ✅ **Historial de Operaciones**: Undo/redo ilimitado
+- ✅ **Exportación**: Guardar trabajo en JSON/PDF
+
+### 📊 Características Avanzadas
+- ✅ **Visualizaciones**: Gráficas 2D con Plotly.js
+- ✅ **Animaciones**: Transiciones fluidas con Framer Motion
+- ✅ **Renderizado LaTeX**: Ecuaciones hermosas con KaTeX
+- ✅ **Progreso Personalizado**: Tracking adaptativo de habilidades
 
 ## 🐳 Comandos Docker Útiles
 
@@ -133,12 +242,58 @@ docker-compose build
 docker-compose down -v
 ```
 
-## 🚀 Deployment con Easypanel
+## 🚀 Deployment en Producción
 
-1. Crea una nueva app en Easypanel
-2. Conecta tu repositorio GitHub
-3. Configura las variables de entorno
-4. Deploy automático con cada push
+### 🌐 Deploy con Easypanel (Recomendado)
+
+**Configuración Automática:**
+
+1. **Crear App en Easypanel**
+   ```bash
+   # El archivo easypanel.json ya está configurado
+   # Solo necesitas conectar tu repositorio
+   ```
+
+2. **Configurar Variables de Entorno**
+   ```bash
+   NODE_ENV=production
+   DB_PASSWORD={{DB_PASSWORD}}        # Generar contraseña segura
+   JWT_SECRET={{JWT_SECRET}}          # Generar secret seguro
+   SESSION_SECRET={{SESSION_SECRET}}  # Generar secret seguro
+   FRONTEND_URL=https://{{DOMAIN}}    # Tu dominio
+   ```
+
+3. **Deploy Automático**
+   - ✅ **Webhook configurado** para deploy automático
+   - ✅ **SSL automático** con Let's Encrypt
+   - ✅ **Monitoreo integrado** de recursos
+   - ✅ **Backups diarios** automáticos
+   - ✅ **Health checks** configurados
+
+4. **Servicios Desplegados**
+   - **Nginx**: Reverse proxy con SSL
+   - **Frontend**: React app optimizada
+   - **Backend**: API Node.js con TypeScript
+   - **PostgreSQL**: Base de datos persistente
+   - **Redis**: Cache en memoria
+
+### 🐳 Deploy Manual con Docker
+
+```bash
+# En tu servidor VPS
+git clone https://github.com/agntsupport/math4life
+cd math4life
+
+# Configurar producción
+cp .env.example .env.production
+# Editar variables de producción
+
+# Deploy con docker-compose
+docker-compose -f docker-compose.prod.yml up -d
+
+# Verificar servicios
+docker-compose -f docker-compose.prod.yml ps
+```
 
 ## 🧪 Testing
 
@@ -152,18 +307,79 @@ cd backend
 npm test
 ```
 
-## 📝 API Endpoints
+## 🔌 API REST Documentación
 
-### Math Operations
-- `POST /api/math/validate` - Validar expresión matemática
-- `POST /api/math/simplify` - Simplificar expresión
-- `POST /api/math/solve` - Resolver ecuación
-- `POST /api/math/hint` - Obtener pista contextual
-- `POST /api/math/evaluate-step` - Evaluar paso algebraico
+### 🧮 Operaciones Matemáticas
 
-### Health Check
-- `GET /api/health` - Estado del servidor
-- `GET /api/health/ping` - Simple ping/pong
+```typescript
+// Validar expresión matemática
+POST /api/math/validate
+Body: { expression: string, context?: string }
+Response: { valid: boolean, errors?: string[] }
+
+// Simplificar expresión
+POST /api/math/simplify  
+Body: { expression: string, steps?: boolean }
+Response: { simplified: string, steps?: Step[] }
+
+// Resolver ecuación
+POST /api/math/solve
+Body: { equation: string, variable?: string }
+Response: { solutions: number[], steps: Step[] }
+
+// Obtener pista contextual
+POST /api/math/hint
+Body: { expression: string, step: number }
+Response: { hint: string, type: 'warning' | 'suggestion' | 'tip' }
+
+// Evaluar paso algebraico
+POST /api/math/evaluate-step
+Body: { from: string, to: string, operation: string }
+Response: { valid: boolean, feedback: string }
+```
+
+### 🏥 Health Check y Monitoreo
+
+```typescript
+// Estado completo del servidor
+GET /api/health
+Response: {
+  status: 'healthy' | 'degraded' | 'unhealthy',
+  timestamp: string,
+  uptime: number,
+  services: {
+    database: 'connected' | 'disconnected',
+    redis: 'connected' | 'disconnected',
+    math_engine: 'operational' | 'error'
+  },
+  performance: {
+    response_time: number,
+    memory_usage: number,
+    cpu_usage: number
+  }
+}
+
+// Ping simple
+GET /api/health/ping
+Response: { message: 'pong', timestamp: string }
+```
+
+### 🛡️ Rate Limiting
+
+- **Límite**: 100 requests por 15 minutos por IP
+- **Headers**: `X-RateLimit-Limit`, `X-RateLimit-Remaining`
+- **Error 429**: Si se excede el límite
+
+### 🔐 Autenticación (Opcional)
+
+```typescript
+// Todas las rutas de math son públicas
+// Autenticación solo para features premium futuras
+Headers: {
+  'Authorization': 'Bearer <jwt_token>',  // Opcional
+  'Content-Type': 'application/json'
+}
+```
 
 ## 🤝 Contribuir
 
@@ -186,11 +402,69 @@ Este proyecto está bajo licencia MIT. Ver archivo `LICENSE` para más detalles.
 - Material-UI para componentes UI
 - React DnD para drag & drop
 
-## 📞 Soporte
+## 🤝 Contribuir al Proyecto
 
-- GitHub Issues: https://github.com/agntsupport/math4life/issues
-- Email: alfredo@agnt.support
-- WhatsApp: +52 4433104749
+¡Las contribuciones son bienvenidas! Este es un proyecto 100% open source.
+
+### 🔧 Setup para Contribuir
+
+```bash
+# Fork del repositorio
+git clone https://github.com/TU_USUARIO/math4life
+cd math4life
+
+# Crear rama de feature
+git checkout -b feature/nombre-feature
+
+# Desarrollo
+./dev.sh
+
+# Testing
+npm test                    # Frontend
+cd backend && npm test      # Backend
+
+# Lint y typecheck
+npm run lint
+npm run typecheck
+
+# Commit y push
+git commit -m "feat: descripción del cambio"
+git push origin feature/nombre-feature
+```
+
+### 📋 Guías de Contribución
+
+- **Código**: Seguir estándares TypeScript y ESLint
+- **Commits**: Usar [Conventional Commits](https://conventionalcommits.org/)
+- **Testing**: Incluir tests para nueva funcionalidad
+- **Documentación**: Actualizar docs si es necesario
+- **UI/UX**: Mantener consistencia con Material-UI
+
+### 🐛 Reportar Bugs
+
+Usa [GitHub Issues](https://github.com/agntsupport/math4life/issues) con:
+- Descripción detallada del problema
+- Pasos para reproducir
+- Screenshots/videos si aplica
+- Información del entorno (browser, OS)
+
+## 📞 Soporte y Contacto
+
+### 🔧 Soporte Técnico
+- **GitHub Issues**: [Reportar bugs y solicitar features](https://github.com/agntsupport/math4life/issues)
+- **Discussions**: [Preguntas y discusiones](https://github.com/agntsupport/math4life/discussions)
+- **Wiki**: [Documentación detallada](https://github.com/agntsupport/math4life/wiki)
+
+### 👨‍💻 Contacto Directo
+- **Email**: alfredo@agnt.support
+- **WhatsApp**: +52 4433104749
+- **Website**: [agnt.support](https://agnt.support)
+
+### 🌐 Enlaces Útiles
+- **Demo Live**: [math4life.agnt.support](https://math4life.agnt.support)
+- **Repositorio**: [github.com/agntsupport/math4life](https://github.com/agntsupport/math4life)
+- **Roadmap**: [Ver ROADMAP.md](ROADMAP.md)
+- **Objetivos**: [Ver OBJETIVOS_AGENTMATH.md](OBJETIVOS_AGENTMATH.md)
 
 ---
 

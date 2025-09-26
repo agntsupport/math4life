@@ -23,17 +23,11 @@
     "FRONTEND_URL": "https://{{DOMAIN}}",
     "LOG_LEVEL": "info"
   },
-  "domains": [
-    {
-      "name": "math4life.82.197.94.27.nip.io",
-      "ssl": false,
-      "redirectWww": false
-    }
-  ],
+  "domains": [],
   "ports": [
     {
       "internal": 80,
-      "external": 80,
+      "external": 8080,
       "protocol": "http"
     }
   ],

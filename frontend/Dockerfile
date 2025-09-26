@@ -12,9 +12,9 @@ RUN npm install
 # Copy source code
 COPY . .
 
-EXPOSE 3000
+EXPOSE 80
 
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "3000"]
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "80"]
 
 FROM node:18-alpine AS builder
 
@@ -49,9 +49,9 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-  CMD curl -f http://localhost:3000/health || exit 1
+  CMD curl -f http://localhost/health || exit 1
 
-EXPOSE 3000
+EXPOSE 80
 
-# Start Nginx on port 3000
+# Start Nginx on port 80
 CMD ["nginx", "-g", "daemon off;"]

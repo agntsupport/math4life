@@ -7,7 +7,7 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 4000
+EXPOSE 80
 
 CMD ["npm", "run", "dev"]
 
@@ -46,8 +46,10 @@ COPY --from=builder /app/dist ./dist
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-  CMD curl -f http://localhost:4000/api/health || exit 1
+  CMD curl -f http://localhost/api/health || exit 1
 
-EXPOSE 4000
+EXPOSE 80
+
+ENV PORT=80
 
 CMD ["node", "dist/index.js"]

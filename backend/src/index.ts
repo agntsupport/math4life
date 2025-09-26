@@ -5,9 +5,11 @@ import dotenv from 'dotenv'
 import { createServer } from 'http'
 import { Server } from 'socket.io'
 import rateLimit from 'express-rate-limit'
+import { Pool } from 'pg'
 import { logger } from './utils/logger'
 import mathRoutes from './routes/math.routes'
 import healthRoutes from './routes/health.routes'
+import createGradeLevelRoutes from './routes/gradeLevel.routes'
 
 dotenv.config()
 
@@ -37,15 +39,41 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use('/api', limiter)
 
+// Database connection
+const pool = new Pool({
+  host: process.env.DB_HOST || 'localhost',
+  port: parseInt(process.env.DB_PORT || '5432'),
+  user: process.env.DB_USER || 'postgres',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'math4life',
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+})
+
+// Test database connection
+pool.connect()
+  .then(client => {
+    logger.info('Database connected successfully')
+    client.release()
+  })
+  .catch(err => {
+    logger.error('Database connection failed:', err)
+  })
+
+// Routes
 app.use('/api/math', mathRoutes)
 app.use('/api/health', healthRoutes)
+app.use('/api/grade-levels', createGradeLevelRoutes(pool))
 
 app.get('/api', (_req, res) => {
   res.json({
-    message: 'Math4Life API v0.1.0',
+    message: 'Math4Life API v0.1.0 - K-8 Curriculum System',
     endpoints: {
       math: '/api/math',
-      health: '/api/health'
+      health: '/api/health',
+      gradeLevels: '/api/grade-levels',
+      curriculum: '/api/grade-levels/:code/domains'
     }
   })
 })

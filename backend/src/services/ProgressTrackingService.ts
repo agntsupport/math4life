@@ -165,7 +165,7 @@ export class ProgressTrackingService {
       WHERE u.id = $1
     `
     
-    const params = [studentId]
+    const params: any[] = [studentId]
     
     if (domainCode) {
       query += ' AND d.code = $2'
@@ -198,8 +198,8 @@ export class ProgressTrackingService {
     standardId: number, 
     sessionScore: number, 
     timeSpentMinutes: number,
-    problemsAttempted: number,
-    problemsCorrect: number
+    _problemsAttempted: number,
+    _problemsCorrect: number
   ): Promise<void> {
     const client = await this.pool.connect()
     
@@ -453,7 +453,7 @@ export class ProgressTrackingService {
     client: any, 
     studentId: number, 
     standardId: number, 
-    sessionScore: number
+    _sessionScore: number
   ): Promise<void> {
     // Check if student is struggling (multiple attempts with low scores)
     const struggleCheck = await client.query(`

@@ -151,7 +151,7 @@ export class GradeLevelService {
       WHERE id = $2
     `
     const result = await this.pool.query(query, [gradeLevel.id, studentId])
-    return result.rowCount > 0
+    return (result.rowCount || 0) > 0
   }
 
   /**

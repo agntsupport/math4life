@@ -9,25 +9,27 @@ export interface AuthenticatedRequest extends Request {
   }
 }
 
-export const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
 
   if (!token) {
-    return res.status(401).json({
+    res.status(401).json({
       success: false,
       error: 'Access token required'
     })
+    return
   }
 
   const jwtSecret = process.env.JWT_SECRET || 'your-secret-key'
 
   jwt.verify(token, jwtSecret, (err: any, user: any) => {
     if (err) {
-      return res.status(403).json({
+      res.status(403).json({
         success: false,
         error: 'Invalid or expired token'
       })
+      return
     }
 
     req.user = user
@@ -51,11 +53,11 @@ export const authorizeRoles = (...roles: string[]) => {
       })
     }
 
-    next()
+    return next()
   }
 }
 
-export const optionalAuth = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const optionalAuth = (req: AuthenticatedRequest, _res: Response, next: NextFunction) => {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
 
@@ -69,6 +71,6 @@ export const optionalAuth = (req: AuthenticatedRequest, res: Response, next: Nex
     if (!err) {
       req.user = user
     }
-    next()
+    return next()
   })
 }

@@ -13,7 +13,7 @@ export class GradeLevelController {
    * GET /api/grade-levels
    * Get all available grade levels
    */
-  getAllGradeLevels = async (req: Request, res: Response) => {
+  getAllGradeLevels = async (_req: Request, res: Response) => {
     try {
       const gradeLevels = await this.gradeLevelService.getAllGradeLevels()
       res.json({
@@ -45,13 +45,13 @@ export class GradeLevelController {
         })
       }
 
-      res.json({
+      return res.json({
         success: true,
         data: gradeLevel
       })
     } catch (error) {
       console.error('Error fetching grade level:', error)
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         error: 'Failed to fetch grade level'
       })
@@ -118,13 +118,13 @@ export class GradeLevelController {
         })
       }
 
-      res.json({
+      return res.json({
         success: true,
         data: gradeLevel
       })
     } catch (error) {
       console.error('Error fetching student grade level:', error)
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         error: 'Failed to fetch student grade level'
       })
@@ -159,13 +159,13 @@ export class GradeLevelController {
         })
       }
 
-      res.json({
+      return res.json({
         success: true,
         message: `Student grade level updated to ${gradeCode}`
       })
     } catch (error) {
       console.error('Error updating student grade level:', error)
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         error: 'Failed to update student grade level'
       })
@@ -230,7 +230,7 @@ export class GradeLevelController {
       const { studentId } = req.params
       const { standardId, score, timeSpentMinutes } = req.body
 
-      if (!standardId || score === undefined || !timeSpentMinutes === undefined) {
+      if (!standardId || score === undefined || timeSpentMinutes === undefined) {
         return res.status(400).json({
           success: false,
           error: 'standardId, score, and timeSpentMinutes are required'
@@ -251,14 +251,14 @@ export class GradeLevelController {
         parseInt(timeSpentMinutes)
       )
 
-      res.json({
+      return res.json({
         success: true,
         data: progress,
         message: score >= 0.8 ? 'Standard mastered!' : 'Progress recorded'
       })
     } catch (error) {
       console.error('Error updating student progress:', error)
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         error: 'Failed to update student progress'
       })

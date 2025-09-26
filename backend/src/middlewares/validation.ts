@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { body, param, query, validationResult } from 'express-validator'
+import { body, validationResult } from 'express-validator'
 
 export const validateMathInput = [
   body('expression')
@@ -58,5 +58,5 @@ export const validateRequest = (req: Request, res: Response, next: NextFunction)
     })
   }
   
-  next()
+  return next()
 }

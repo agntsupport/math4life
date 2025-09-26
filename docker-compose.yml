@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    container_name: math4life-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:4000/api
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - math4life-network
+
+  backend:
+    build: ./backend
+    container_name: math4life-backend
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=math4life
+      - DB_PASSWORD=math4life_dev
+      - DB_NAME=math4life
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - math4life-network
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: math4life-postgres
+    environment:
+      - POSTGRES_USER=math4life
+      - POSTGRES_PASSWORD=math4life_dev
+      - POSTGRES_DB=math4life
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - math4life-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: math4life-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - math4life-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: math4life-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - math4life-network
+
+networks:
+  math4life-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:

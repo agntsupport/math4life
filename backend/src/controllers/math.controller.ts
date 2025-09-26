@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import * as math from 'mathjs'
 import { MathService } from '../services/math.service'
 import { logger } from '../utils/logger'
 

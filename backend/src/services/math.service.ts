@@ -22,7 +22,7 @@ export class MathService {
     }
   }
 
-  solveEquation(equation: string, variable: string = 'x'): any {
+  solveEquation(equation: string, _variable: string = 'x'): any {
     try {
       const parts = equation.split('=')
       if (parts.length !== 2) {
@@ -101,7 +101,7 @@ export class MathService {
     return steps
   }
 
-  generateHint(expression: string, problemType: string = 'general', currentStep?: number): any {
+  generateHint(_expression: string, problemType: string = 'general', currentStep?: number): any {
     const hints: { [key: string]: string[] } = {
       arithmetic: [
         'Recuerda el orden de las operaciones (PEMDAS)',

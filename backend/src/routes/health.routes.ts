@@ -2,7 +2,7 @@ import { Router } from 'express'
 
 const router = Router()
 
-router.get('/', (req, res) => {
+router.get('/', (_req, res) => {
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   })
 })
 
-router.get('/ping', (req, res) => {
+router.get('/ping', (_req, res) => {
   res.send('pong')
 })
 

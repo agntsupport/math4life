@@ -40,7 +40,7 @@ app.use('/api', limiter)
 app.use('/api/math', mathRoutes)
 app.use('/api/health', healthRoutes)
 
-app.get('/api', (req, res) => {
+app.get('/api', (_req, res) => {
   res.json({
     message: 'Math4Life API v0.1.0',
     endpoints: {
@@ -67,7 +67,7 @@ io.on('connection', (socket) => {
   })
 })
 
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: any, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   logger.error(err.stack)
   res.status(err.status || 500).json({
     error: {

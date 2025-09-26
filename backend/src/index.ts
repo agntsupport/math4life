@@ -51,10 +51,31 @@ const pool = new Pool({
   connectionTimeoutMillis: 2000,
 })
 
-// Test database connection
+// Test database connection and initialize if needed
 pool.connect()
-  .then(client => {
+  .then(async client => {
     logger.info('Database connected successfully')
+    
+    // Check if database is initialized
+    try {
+      const result = await client.query(`
+        SELECT table_name FROM information_schema.tables 
+        WHERE table_schema = 'public' AND table_name = 'grade_levels'
+      `)
+      
+      if (result.rows.length === 0) {
+        logger.info('Database not initialized, running initialization...')
+        // Import and run initialization
+        const { initDatabase } = require('../scripts/init-db')
+        await initDatabase()
+        logger.info('Database initialization completed')
+      } else {
+        logger.info('Database already initialized')
+      }
+    } catch (error) {
+      logger.error('Database initialization check failed:', error)
+    }
+    
     client.release()
   })
   .catch(err => {

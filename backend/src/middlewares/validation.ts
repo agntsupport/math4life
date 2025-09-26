@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { body, validationResult } from 'express-validator'
+import { body, param, query, validationResult } from 'express-validator'
 
 export const validateMathInput = [
   body('expression')
@@ -45,3 +45,18 @@ export const validateMathInput = [
     return next()
   }
 ]
+
+// Generic validation middleware
+export const validateRequest = (req: Request, res: Response, next: NextFunction) => {
+  const errors = validationResult(req)
+  
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      success: false,
+      error: 'Validation failed',
+      details: errors.array()
+    })
+  }
+  
+  next()
+}

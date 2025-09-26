@@ -1,0 +1,23 @@
+{
+  "name": "agntmath",
+  "version": "1.0.0",
+  "description": "*Plataforma web interactiva de aprendizaje matemático 100% gratuita y open source*",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agntsupport/math4life.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agntsupport/math4life/issues"
+  },
+  "homepage": "https://github.com/agntsupport/math4life#readme",
+  "dependencies": {
+    "playwright": "^1.55.1"
+  }
+}

@@ -2,67 +2,69 @@ version: '3.8'
 
 services:
   frontend:
-    build: ./frontend
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: production
     container_name: math4life-frontend
     ports:
       - "3000:3000"
     environment:
-      - VITE_API_URL=http://localhost:4000/api
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    depends_on:
-      - backend
+      - VITE_API_URL=/api
     networks:
       - math4life-network
+    restart: unless-stopped
 
   backend:
-    build: ./backend
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+      target: production
     container_name: math4life-backend
     ports:
       - "4000:4000"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - PORT=4000
       - DB_HOST=postgres
       - DB_PORT=5432
       - DB_USER=math4life
-      - DB_PASSWORD=math4life_dev
+      - DB_PASSWORD=math4life_secure
       - DB_NAME=math4life
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
+      - JWT_SECRET=change_this_in_production_jwt_secret_key_123456
+      - SESSION_SECRET=change_this_in_production_session_secret_key_123456
+      - FRONTEND_URL=http://localhost:3000
     depends_on:
       - postgres
       - redis
     networks:
       - math4life-network
+    restart: unless-stopped
 
   postgres:
     image: postgres:15-alpine
     container_name: math4life-postgres
     environment:
       - POSTGRES_USER=math4life
-      - POSTGRES_PASSWORD=math4life_dev
+      - POSTGRES_PASSWORD=math4life_secure
       - POSTGRES_DB=math4life
-    ports:
-      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - math4life-network
+    restart: unless-stopped
 
   redis:
     image: redis:7-alpine
     container_name: math4life-redis
-    ports:
-      - "6379:6379"
     volumes:
       - redis_data:/data
     networks:
       - math4life-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
 
   nginx:
     image: nginx:alpine

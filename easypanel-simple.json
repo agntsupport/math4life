@@ -1,0 +1,9 @@
+{
+  "name": "math4life",
+  "type": "docker-compose",
+  "source": {
+    "type": "github",
+    "repo": "agntsupport/math4life",
+    "branch": "main"
+  }
+}

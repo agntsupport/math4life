@@ -1,14 +1,14 @@
 import { useRef, useState, useEffect } from 'react'
 import { Box, IconButton, Tooltip, Typography } from '@mui/material'
 import { Undo, Redo, Clear, Help } from '@mui/icons-material'
-import { evaluate, parse } from 'mathjs'
+import { evaluate } from 'mathjs'
 
 interface MathCanvasProps {
   expression: string
   onExpressionChange?: (expr: string) => void
 }
 
-const MathCanvas = ({ expression, onExpressionChange }: MathCanvasProps) => {
+const MathCanvas = ({ expression }: MathCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [history, setHistory] = useState<string[]>([expression])
   const [historyIndex, setHistoryIndex] = useState(0)
@@ -36,7 +36,7 @@ const MathCanvas = ({ expression, onExpressionChange }: MathCanvasProps) => {
     let x = 50
     const y = canvas.height / 2
 
-    parts.forEach((part, index) => {
+    parts.forEach((part) => {
       const isOperator = ['+', '-', '*', '/', '(', ')'].includes(part)
       
       ctx.fillStyle = isOperator ? '#1976d2' : '#333'

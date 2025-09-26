@@ -1,5 +1,5 @@
 import { Grid, Card, CardContent, CardActions, Typography, Button, Box, Paper } from '@mui/material'
-import { School, Functions, Calculate, Explore } from '@mui/icons-material'
+import { Functions, Calculate, Explore } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 

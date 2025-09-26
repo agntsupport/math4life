@@ -6,7 +6,6 @@ import MathCanvas from '../../components/MathCanvas'
 import { evaluate } from 'mathjs'
 
 const ArithmeticModule = () => {
-  const [currentProblem, setCurrentProblem] = useState('2 + 3 = ?')
   const [userAnswer, setUserAnswer] = useState('')
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error' | 'info' | null, message: string }>({ type: null, message: '' })
   const [score, setScore] = useState(0)

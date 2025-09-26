@@ -26,13 +26,14 @@ services:
       - PORT=4000
       - DB_HOST=postgres
       - DB_PORT=5432
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
+      - DB_USER=math4life
+      - DB_PASSWORD=math4life_prod_secure
+      - DB_NAME=math4life
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - JWT_SECRET=${JWT_SECRET}
-      - SESSION_SECRET=${SESSION_SECRET}
+      - JWT_SECRET=your_jwt_secret_change_in_production_123456
+      - SESSION_SECRET=your_session_secret_change_in_production_123456
+      - FRONTEND_URL=http://localhost
     networks:
       - math4life-network
     depends_on:
@@ -44,9 +45,9 @@ services:
     image: postgres:15-alpine
     container_name: math4life-postgres-prod
     environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=math4life
+      - POSTGRES_PASSWORD=math4life_prod_secure
+      - POSTGRES_DB=math4life
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./backend/src/database/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -69,10 +70,8 @@ services:
     container_name: math4life-nginx-prod
     ports:
       - "80:80"
-      - "443:443"
     volumes:
-      - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf
-      - ./nginx/ssl:/etc/nginx/ssl
+      - ./nginx/nginx.simple.conf:/etc/nginx/nginx.conf
     depends_on:
       - frontend
       - backend

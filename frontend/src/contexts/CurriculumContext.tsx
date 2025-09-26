@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useReducer, useEffect, ReactNode } from 'react'
 import { 
   GradeLevel, 
   Domain, 
@@ -358,14 +358,6 @@ interface CurriculumProviderProps {
 export function CurriculumProvider({ children, studentId }: CurriculumProviderProps) {
   const [state, dispatch] = useReducer(curriculumReducer, initialState)
 
-  // Load initial data
-  useEffect(() => {
-    loadGradeLevels()
-    if (studentId) {
-      loadStudentProgress(studentId)
-    }
-  }, [studentId])
-
   const actions = {
     loadGradeLevels: async (): Promise<void> => {
       dispatch({ type: 'SET_LOADING', payload: true })
@@ -502,6 +494,14 @@ export function CurriculumProvider({ children, studentId }: CurriculumProviderPr
       return uiConfigs[gradeCode] || uiConfigs['3'] // Default to Grade 3 config
     }
   }
+
+  // Load initial data
+  useEffect(() => {
+    actions.loadGradeLevels()
+    if (studentId) {
+      actions.loadStudentProgress(studentId)
+    }
+  }, [studentId, actions])
 
   return (
     <CurriculumContext.Provider value={{ state, actions }}>

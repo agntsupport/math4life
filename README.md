@@ -2,22 +2,35 @@
 
 *Plataforma web interactiva de aprendizaje matemático 100% gratuita y open source*
 
-[![Deploy Status](https://img.shields.io/badge/Deploy-Easypanel-blue)](https://math4life.agnt.support)
+[![Deploy Status](https://img.shields.io/badge/Deploy-Live-success)](https://math4life-math4life-frontend.1nse3e.easypanel.host)
+[![API Status](https://img.shields.io/badge/API-Online-success)](https://math4life-math4life-backend.1nse3e.easypanel.host/api/health)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-brightgreen)](https://nodejs.org/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue)](https://docker.com/)
 
+## 🌐 Demo en Vivo
+
+**🎨 Aplicación Frontend:**  
+[https://math4life-math4life-frontend.1nse3e.easypanel.host](https://math4life-math4life-frontend.1nse3e.easypanel.host)
+
+**🔧 API Backend:**  
+[https://math4life-math4life-backend.1nse3e.easypanel.host/api](https://math4life-math4life-backend.1nse3e.easypanel.host/api)
+
 ## 🚀 Características Principales
 
+### ✅ Implementadas (Septiembre 2025)
 - ✅ **100% Gratuito y Open Source** - Sin pagos, sin anuncios, sin limitaciones
-- 🎯 **Manipulación Visual de Ecuaciones** - Drag & drop intuitivo para álgebra
-- 📊 **Visualizaciones Interactivas** - Gráficas y animaciones matemáticas
-- 📱 **Totalmente Responsive** - Optimizado para móvil, tablet y desktop
-- 🔌 **Progressive Web App** - Funciona offline, instalable como app nativa
-- 🐳 **Arquitectura Dockerizada** - Deploy fácil con contenedores
-- 🔧 **API REST Completa** - Backend modular y escalable
-- 🎮 **Sistema de Gamificación** - Puntos, logros y progreso personalizado
-- 🤖 **Motor de Álgebra Avanzado** - Validación paso a paso de ejercicios
+- ✅ **API REST Completa** - Backend funcional con 5+ endpoints matemáticos
+- ✅ **Arquitectura Dockerizada** - Desplegado en Easypanel con 4 servicios
+- ✅ **Motor de Álgebra** - Math.js + validación de expresiones
+- ✅ **Frontend React** - SPA con TypeScript y Material-UI
+- ✅ **Responsive Design** - Adaptado para móvil/tablet/desktop
+
+### 🔄 En Desarrollo
+- 🔄 **Drag & Drop** - Manipulación visual de ecuaciones
+- 🔄 **Visualizaciones** - Gráficas con Plotly.js
+- 🔄 **PWA** - Capacidades offline con Service Workers
+- 🔄 **Gamificación** - Sistema de puntos y logros
 
 ## 📋 Requisitos del Sistema
 
@@ -244,38 +257,61 @@ docker-compose down -v
 
 ## 🚀 Deployment en Producción
 
-### 🌐 Deploy con Easypanel (Recomendado)
+### ✅ Estado Actual del Deploy (Septiembre 2025)
 
-**Configuración Automática:**
+**URLs de Producción:**
+- **Frontend:** https://math4life-math4life-frontend.1nse3e.easypanel.host
+- **Backend API:** https://math4life-math4life-backend.1nse3e.easypanel.host
+- **Health Check:** https://math4life-math4life-backend.1nse3e.easypanel.host/api/health
 
-1. **Crear App en Easypanel**
-   ```bash
-   # El archivo easypanel.json ya está configurado
-   # Solo necesitas conectar tu repositorio
-   ```
+### 🌐 Configuración en Easypanel
 
-2. **Configurar Variables de Entorno**
-   ```bash
-   NODE_ENV=production
-   DB_PASSWORD={{DB_PASSWORD}}        # Generar contraseña segura
-   JWT_SECRET={{JWT_SECRET}}          # Generar secret seguro
-   SESSION_SECRET={{SESSION_SECRET}}  # Generar secret seguro
-   FRONTEND_URL=https://{{DOMAIN}}    # Tu dominio
-   ```
+**Servicios Activos:**
 
-3. **Deploy Automático**
-   - ✅ **Webhook configurado** para deploy automático
-   - ✅ **SSL automático** con Let's Encrypt
-   - ✅ **Monitoreo integrado** de recursos
-   - ✅ **Backups diarios** automáticos
-   - ✅ **Health checks** configurados
+1. **✅ Frontend (math4life-frontend)**
+   - Puerto: 80
+   - Dockerfile: `/frontend/Dockerfile`
+   - Target: production
+   - Estado: RUNNING
 
-4. **Servicios Desplegados**
-   - **Nginx**: Reverse proxy con SSL
-   - **Frontend**: React app optimizada
-   - **Backend**: API Node.js con TypeScript
-   - **PostgreSQL**: Base de datos persistente
-   - **Redis**: Cache en memoria
+2. **✅ Backend (math4life-backend)**  
+   - Puerto: 80
+   - Dockerfile: `/backend/Dockerfile`
+   - Target: production
+   - Estado: RUNNING
+   - Variables:
+     - `NODE_ENV=production`
+     - `PORT=80`
+     - `DB_HOST=math4life-postgres`
+
+3. **✅ PostgreSQL (math4life-postgres)**
+   - Imagen: `postgres:15`
+   - Estado: RUNNING
+
+4. **✅ Redis (math4life-redis)**
+   - Imagen: `redis:7-alpine`
+   - Estado: RUNNING
+
+### 🔧 Configuración Easypanel
+
+```json
+{
+  "type": "app",
+  "source": {
+    "type": "github",
+    "owner": "agntsupport",
+    "repo": "math4life",
+    "ref": "main"
+  },
+  "build": {
+    "type": "dockerfile"
+  },
+  "deploy": {
+    "replicas": 1,
+    "zeroDowntime": true
+  }
+}
+```
 
 ### 🐳 Deploy Manual con Docker
 

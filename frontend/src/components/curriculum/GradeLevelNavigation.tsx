@@ -27,7 +27,7 @@ import {
   CheckCircle as CheckIcon
 } from '@mui/icons-material'
 import { useCurriculum } from '../../contexts/CurriculumContext'
-import { GradeLevel, NavigationItem } from '../../types/curriculum'
+import { NavigationItem } from '../../types/curriculum'
 
 interface GradeLevelNavigationProps {
   studentId?: number
@@ -98,7 +98,7 @@ const GradeLevelNavigation: React.FC<GradeLevelNavigationProps> = ({
       // Check if student can access this grade
       if (studentId && !allowLocked) {
         try {
-          const accessResponse = await actions.getLearningPath(studentId)
+          await actions.getLearningPath(studentId)
           // Implementation would check actual access logic
           isAvailable = true // Simplified for now
         } catch (error) {
@@ -116,7 +116,7 @@ const GradeLevelNavigation: React.FC<GradeLevelNavigationProps> = ({
         code: grade.code,
         name: grade.name,
         path: `/grade/${grade.code}`,
-        icon: gradeIcons[grade.code] || <SchoolIcon />,
+        icon: grade.code, // Store just the code, icon will be rendered from gradeIcons mapping
         color: gradeColors[grade.code] || theme.palette.primary.main,
         ageRange: grade.ageRange,
         isAvailable,
@@ -164,7 +164,7 @@ const GradeLevelNavigation: React.FC<GradeLevelNavigationProps> = ({
   }
 
   const renderProgressBadge = (item: NavigationItem) => {
-    if (!showProgress || item.progress === 0) return null
+    if (!showProgress || !item.progress || item.progress === 0) return null
 
     return (
       <Badge
@@ -277,7 +277,7 @@ const GradeLevelNavigation: React.FC<GradeLevelNavigationProps> = ({
                         fontSize: '2rem'
                       }}
                     >
-                      {item.icon}
+                      {gradeIcons[item.icon] || <SchoolIcon />}
                     </Avatar>
 
                     {/* Grade Name */}
@@ -307,7 +307,7 @@ const GradeLevelNavigation: React.FC<GradeLevelNavigationProps> = ({
                     </Typography>
 
                     {/* Progress Bar */}
-                    {showProgress && item.progress > 0 && (
+                    {showProgress && item.progress && item.progress > 0 && (
                       <Box sx={{ mt: 2 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                           <Typography variant="caption" color="text.secondary">

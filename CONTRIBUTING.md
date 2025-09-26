@@ -6,7 +6,8 @@
 
 Math4Life es una plataforma educativa 100% gratuita y open source para el aprendizaje interactivo de matemáticas. Nuestro objetivo es democratizar el acceso a herramientas educativas de calidad.
 
-**🌐 Demo:** https://math4life.agnt.support  
+**🌐 Frontend:** https://math4life-math4life-frontend.1nse3e.easypanel.host  
+**🔧 Backend API:** https://math4life-math4life-backend.1nse3e.easypanel.host  
 **📚 Repositorio:** https://github.com/agntsupport/math4life  
 
 ---
@@ -35,8 +36,9 @@ git remote add upstream https://github.com/agntsupport/math4life
 ./dev.sh
 
 # 5. Verificar que todo funciona
-# Frontend: http://localhost:3000
-# Backend: http://localhost:4000/api/health
+# Frontend: http://localhost:3000 (desarrollo) 
+# Backend: http://localhost:4000/api/health (desarrollo)
+# Producción: URLs de Easypanel arriba
 ```
 
 ---
@@ -432,5 +434,5 @@ Gracias por considerar contribuir a Math4Life. Tu aporte ayuda a democratizar la
 
 ---
 
-*Documento actualizado: Septiembre 26, 2024*  
-*Próxima revisión: Octubre 15, 2024*
+*Documento actualizado: Septiembre 26, 2025*  
+*Próxima revisión: Octubre 15, 2025*

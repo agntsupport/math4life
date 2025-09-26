@@ -1,6 +1,11 @@
 # Math4Life - Objetivos del Proyecto
 *Aplicación web de matemáticas interactiva 100% gratuita y open source*
-**Repositorio:** https://github.com/agntsupport/math4life
+
+**🌐 Frontend Live:** https://math4life-math4life-frontend.1nse3e.easypanel.host  
+**🔧 Backend API:** https://math4life-math4life-backend.1nse3e.easypanel.host  
+**💻 Repositorio:** https://github.com/agntsupport/math4life  
+**📅 Última Actualización:** Septiembre 26, 2025  
+**✅ Estado:** EN PRODUCCIÓN
 
 ## 🎯 Visión General
 Desarrollar una aplicación web educativa de matemáticas completamente gratuita, accesible desde cualquier navegador, que democratice el acceso a herramientas de aprendizaje interactivo mediante una arquitectura moderna basada en contenedores.

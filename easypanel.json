@@ -1,0 +1,102 @@
+{
+  "name": "math4life",
+  "description": "Interactive Math Learning Platform - 100% Free & Open Source",
+  "version": "1.0.0",
+  "repository": "https://github.com/agntsupport/math4life",
+  "branch": "main",
+  "buildCommand": "docker-compose -f docker-compose.prod.yml build",
+  "startCommand": "docker-compose -f docker-compose.prod.yml up -d",
+  "stopCommand": "docker-compose -f docker-compose.prod.yml down",
+  "healthCheck": {
+    "path": "/health",
+    "interval": 30,
+    "timeout": 10,
+    "retries": 3
+  },
+  "environment": {
+    "NODE_ENV": "production",
+    "DB_USER": "math4life",
+    "DB_PASSWORD": "{{DB_PASSWORD}}",
+    "DB_NAME": "math4life",
+    "JWT_SECRET": "{{JWT_SECRET}}",
+    "SESSION_SECRET": "{{SESSION_SECRET}}",
+    "FRONTEND_URL": "https://{{DOMAIN}}",
+    "LOG_LEVEL": "info"
+  },
+  "domains": [
+    {
+      "name": "math4life.agnt.support",
+      "ssl": true,
+      "redirectWww": false
+    }
+  ],
+  "ports": [
+    {
+      "internal": 80,
+      "external": 80,
+      "protocol": "http"
+    },
+    {
+      "internal": 443,
+      "external": 443,
+      "protocol": "https"
+    }
+  ],
+  "volumes": [
+    {
+      "name": "postgres_data",
+      "path": "/var/lib/postgresql/data"
+    },
+    {
+      "name": "redis_data", 
+      "path": "/data"
+    }
+  ],
+  "services": [
+    {
+      "name": "nginx",
+      "image": "nginx:alpine",
+      "ports": ["80:80", "443:443"],
+      "depends_on": ["frontend", "backend"]
+    },
+    {
+      "name": "frontend",
+      "build": "./frontend",
+      "depends_on": ["backend"]
+    },
+    {
+      "name": "backend",
+      "build": "./backend", 
+      "depends_on": ["postgres", "redis"]
+    },
+    {
+      "name": "postgres",
+      "image": "postgres:15-alpine",
+      "volumes": ["postgres_data:/var/lib/postgresql/data"]
+    },
+    {
+      "name": "redis",
+      "image": "redis:7-alpine",
+      "volumes": ["redis_data:/data"]
+    }
+  ],
+  "monitoring": {
+    "enabled": true,
+    "metrics": ["cpu", "memory", "disk", "network"],
+    "alerts": {
+      "cpu": 80,
+      "memory": 80,
+      "disk": 85
+    }
+  },
+  "backup": {
+    "enabled": true,
+    "schedule": "0 2 * * *",
+    "retention": 7
+  },
+  "autoDeploy": {
+    "enabled": true,
+    "webhook": true,
+    "branch": "main"
+  }
+}

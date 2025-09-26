@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: 
+      context: ./frontend
+      target: production
+    container_name: math4life-frontend-prod
+    environment:
+      - VITE_API_URL=/api
+    networks:
+      - math4life-network
+    restart: unless-stopped
+
+  backend:
+    build: 
+      context: ./backend
+      target: production
+    container_name: math4life-backend-prod
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_SECRET=${JWT_SECRET}
+      - SESSION_SECRET=${SESSION_SECRET}
+    networks:
+      - math4life-network
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: math4life-postgres-prod
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/src/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - math4life-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: math4life-redis-prod
+    volumes:
+      - redis_data:/data
+    networks:
+      - math4life-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  nginx:
+    image: nginx:alpine
+    container_name: math4life-nginx-prod
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - math4life-network
+    restart: unless-stopped
+
+networks:
+  math4life-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:

@@ -14,21 +14,24 @@ const AlgebraModule = () => {
       title: 'Variables y Expresiones',
       content: 'Una variable es un símbolo que representa un valor desconocido.',
       example: 'x + 5 = 10',
-      practice: 'Encuentra el valor de x en: x + 3 = 8',
+      practiceText: 'Encuentra el valor de x en:',
+      practiceEquation: 'x + 3 = 8',
       solution: '5'
     },
     {
       title: 'Ecuaciones Lineales',
       content: 'Una ecuación lineal es una ecuación de primer grado.',
       example: '2x + 3 = 11',
-      practice: 'Resuelve: 3x - 2 = 13',
+      practiceText: 'Resuelve:',
+      practiceEquation: '3x - 2 = 13',
       solution: '5'
     },
     {
       title: 'Sistemas de Ecuaciones',
       content: 'Un sistema de ecuaciones tiene múltiples ecuaciones con múltiples variables.',
       example: 'x + y = 5; x - y = 1',
-      practice: 'Resuelve: x + y = 7; x - y = 3',
+      practiceText: 'Resuelve:',
+      practiceEquation: 'x + y = 7; x - y = 3',
       solution: 'x=5, y=2'
     }
   ]
@@ -101,8 +104,13 @@ const AlgebraModule = () => {
             <Typography variant="h6" gutterBottom>
               Práctica:
             </Typography>
-            <Box sx={{ fontSize: '1.5rem', mb: 3, textAlign: 'center' }}>
-              <InlineMath math={currentLesson.practice} />
+            <Box sx={{ mb: 3, textAlign: 'center' }}>
+              <Typography variant="body1" sx={{ mb: 1 }}>
+                {currentLesson.practiceText}
+              </Typography>
+              <Box sx={{ fontSize: '1.5rem' }}>
+                <InlineMath math={currentLesson.practiceEquation} />
+              </Box>
             </Box>
 
             <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>

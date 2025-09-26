@@ -30,7 +30,7 @@
     "zustand": "^4.4.6"
   },
   "devDependencies": {
-    "@mui/icons-material": "^7.3.2",
+    "@mui/icons-material": "^5.14.18",
     "@types/katex": "^0.16.6",
     "@types/react": "^18.2.38",
     "@types/react-dom": "^18.2.17",

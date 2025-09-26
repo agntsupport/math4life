@@ -78,7 +78,7 @@ const ArithmeticModule = () => {
                 placeholder="Tu respuesta"
                 variant="outlined"
                 type="text"
-                onKeyPress={(e) => {
+                onKeyDown={(e) => {
                   if (e.key === 'Enter') handleCheckAnswer()
                 }}
                 sx={{ width: 200 }}

@@ -111,7 +111,7 @@ const AlgebraModule = () => {
                 onChange={(e) => setUserInput(e.target.value)}
                 placeholder="Tu respuesta"
                 variant="outlined"
-                onKeyPress={(e) => {
+                onKeyDown={(e) => {
                   if (e.key === 'Enter') handleCheckAnswer()
                 }}
                 sx={{ width: 300 }}

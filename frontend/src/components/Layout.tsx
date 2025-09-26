@@ -79,9 +79,9 @@ const Layout = ({ children }: LayoutProps) => {
           <List>
             {menuItems.map((item) => (
               <ListItem 
-                button 
                 key={item.path}
                 onClick={() => handleNavigate(item.path)}
+                sx={{ cursor: 'pointer' }}
               >
                 <ListItemText primary={item.label} />
               </ListItem>

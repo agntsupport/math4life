@@ -1,14 +1,9 @@
 import { useState } from 'react'
 import { Box, Typography, Paper, Grid, Button, TextField, Divider, Chip } from '@mui/material'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import { TouchBackend } from 'react-dnd-touch-backend'
 import { BlockMath } from 'react-katex'
 import DraggableExpression from '../components/DraggableExpression'
 import { evaluate, simplify } from 'mathjs'
 import axios from 'axios'
-
-const isTouchDevice = 'ontouchstart' in window
 
 const Playground = () => {
   const [expression, setExpression] = useState('')
@@ -69,8 +64,7 @@ const Playground = () => {
   }
 
   return (
-    <DndProvider backend={isTouchDevice ? TouchBackend : HTML5Backend}>
-      <Box>
+    <Box>
         <Typography variant="h4" gutterBottom>
           Playground Matemático
         </Typography>
@@ -196,7 +190,6 @@ const Playground = () => {
           </Grid>
         </Grid>
       </Box>
-    </DndProvider>
   )
 }
 

@@ -101,13 +101,13 @@ export class LessonController {
         })
       }
       
-      res.json({
+      return res.json({
         success: true,
         data: result.rows[0]
       })
     } catch (error) {
       console.error('Error fetching lesson:', error)
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         error: 'Failed to fetch lesson'
       })
@@ -142,13 +142,13 @@ export class LessonController {
       
       const result = await this.pool.query(query, [lessonId])
       
-      res.json({
+      return res.json({
         success: true,
         data: result.rows
       })
     } catch (error) {
       console.error('Error fetching problems for lesson:', error)
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         error: 'Failed to fetch problems'
       })
@@ -222,7 +222,7 @@ export class LessonController {
         pointsEarned, timeSpentSeconds, hintsUsed, attemptNumber
       ])
       
-      res.json({
+      return res.json({
         success: true,
         data: {
           isCorrect,
@@ -235,7 +235,7 @@ export class LessonController {
       })
     } catch (error) {
       console.error('Error submitting problem answer:', error)
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         error: 'Failed to submit answer'
       })
@@ -278,13 +278,13 @@ export class LessonController {
         })
       }
       
-      res.json({
+      return res.json({
         success: true,
         data: result.rows[0]
       })
     } catch (error) {
       console.error('Error fetching lesson progress:', error)
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         error: 'Failed to fetch lesson progress'
       })
@@ -324,14 +324,14 @@ export class LessonController {
       
       const result = await this.pool.query(query, [studentId, lessonId])
       
-      res.json({
+      return res.json({
         success: true,
         data: result.rows[0],
         message: 'Lesson started successfully'
       })
     } catch (error) {
       console.error('Error starting lesson:', error)
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         error: 'Failed to start lesson'
       })
@@ -379,14 +379,14 @@ export class LessonController {
         })
       }
       
-      res.json({
+      return res.json({
         success: true,
         data: result.rows[0],
         message: score >= 80 ? 'Lesson completed successfully!' : 'Lesson completed. Consider reviewing for better understanding.'
       })
     } catch (error) {
       console.error('Error completing lesson:', error)
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         error: 'Failed to complete lesson'
       })

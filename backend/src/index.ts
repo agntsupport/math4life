@@ -66,7 +66,7 @@ pool.connect()
       if (result.rows.length === 0) {
         logger.info('Database not initialized, running initialization...')
         // Import and run initialization  
-        const { initDatabase } = require('../../scripts/init-db')
+        const { initDatabase } = require('../scripts/init-db')
         await initDatabase()
         logger.info('Database initialization completed')
       } else {

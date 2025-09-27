@@ -71,7 +71,20 @@ pool.connect()
         await initDatabase()
         logger.info('Database initialization completed')
       } else {
-        logger.info('Database already initialized')
+        logger.info('Database schema already exists')
+        
+        // Check if we have content (standards)
+        const standardsResult = await client.query('SELECT COUNT(*) FROM standards')
+        const standardsCount = parseInt(standardsResult.rows[0].count)
+        
+        if (standardsCount === 0) {
+          logger.info('No standards found, running data seeding...')
+          const { seedData } = require('../scripts/seed-data')
+          await seedData()
+          logger.info('Data seeding completed')
+        } else {
+          logger.info(`Database has ${standardsCount} standards loaded`)
+        }
       }
     } catch (error) {
       logger.error('Database initialization check failed:', error)

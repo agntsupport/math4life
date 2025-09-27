@@ -8,6 +8,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "init-db": "node scripts/init-db.js",
+    "seed-data": "node scripts/seed-data.js",
     "lint": "eslint . --ext .ts",
     "typecheck": "tsc --noEmit"
   },

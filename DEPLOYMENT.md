@@ -2,8 +2,8 @@
 
 *Documentación completa para el deployment en producción*
 
-**📅 Última Actualización:** Septiembre 26, 2025  
-**✅ Estado:** FASE 1 COMPLETADA - PRODUCCIÓN ESTABLE
+**📅 Última Actualización:** Septiembre 27, 2025  
+**✅ Estado:** FASE 1 COMPLETADA - PRODUCCIÓN ESTABLE Y FUNCIONAL
 
 ## 🌐 URLs DE PRODUCCIÓN - FASE 1 COMPLETADA
 
@@ -199,7 +199,45 @@ curl -X POST https://math4life-math4life-backend.1nse3e.easypanel.host/api/math/
 
 ---
 
-## 🔨 Troubleshooting
+## 🔨 Troubleshooting - CASOS REALES RESUELTOS
+
+### ✅ ERR_TOO_MANY_REDIRECTS (RESUELTO)
+**Problema:** Loops infinitos de redirect en `/api/grade-levels`
+
+**Causa Real:** Database no inicializada → Backend Error 500 → Nginx proxy falla
+
+**Solución Aplicada:**
+1. ✅ **Dockerfile corregido**: Copiar `scripts/` y `database/` al container
+2. ✅ **Path corregido**: `require('../scripts/init-db')` para estructura Docker
+3. ✅ **Nginx proxy**: HTTPS + headers correctos + `proxy_ssl_verify off`
+4. ✅ **Cache busting**: Forzar rebuild sin Docker cache
+
+### ✅ Error 429 Too Many Requests (RESUELTO)  
+**Problema:** Rate limiting bloqueando peticiones durante testing
+
+**Solución:**
+```typescript
+// Aumentado de 100 → 1000 para desarrollo
+max: 1000 // requests por 15 minutos
+```
+
+### ✅ Database Initialization Failed (RESUELTO)
+**Problema:** `Cannot find module '../scripts/init-db'`
+
+**Solución Docker:**
+```dockerfile
+# Agregar en production stage:
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/database ./database
+```
+
+### ✅ Frontend Cache Issues (RESUELTO)
+**Problema:** Cambios no se reflejan, mismo hash JS
+
+**Solución:**
+1. Hard refresh: `Ctrl+F5` / `Cmd+Shift+R`
+2. Cambio menor en nginx.conf para romper cache Docker
+3. Ventana incógnita para testing
 
 ### Service Not Reachable
 **Problema:** Error 502 o "Service is not reachable"
@@ -210,15 +248,6 @@ curl -X POST https://math4life-math4life-backend.1nse3e.easypanel.host/api/math/
 3. Check health endpoint
 4. Rebuild servicio en Easypanel
 
-### Puerto Incorrecto
-**Problema:** Servicio escuchando en puerto equivocado
-
-**Solución:**
-1. Actualizar Dockerfile: `EXPOSE 80`
-2. Actualizar ENV: `PORT=80`
-3. Para frontend: nginx.conf con `listen 80;`
-4. Rebuild y redeploy
-
 ### Base de Datos No Conecta
 **Problema:** Backend no puede conectar con PostgreSQL
 
@@ -226,6 +255,8 @@ curl -X POST https://math4life-math4life-backend.1nse3e.easypanel.host/api/math/
 1. Verificar DB_HOST=math4life-postgres
 2. Revisar credenciales en variables de entorno
 3. Check que PostgreSQL esté running en Easypanel
+
+**📖 Para troubleshooting detallado ver: [TROUBLESHOOTING.md](TROUBLESHOOTING.md)**
 
 ---
 

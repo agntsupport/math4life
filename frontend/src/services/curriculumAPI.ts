@@ -197,7 +197,7 @@ export const curriculumAPI = {
   // Lesson endpoints
   async getLessonsForStandard(standardId: number): Promise<ApiResponse<Lesson[]>> {
     try {
-      const response = await api.get(`/lessons/standard/${standardId}`)
+      const response = await api.get(`/standards/${standardId}/lessons`)
       return response.data
     } catch (error: any) {
       return {

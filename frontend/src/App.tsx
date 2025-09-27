@@ -3,6 +3,7 @@ import { Container } from '@mui/material'
 import HomePage from './pages/HomePage'
 import CurriculumPage from './pages/CurriculumPage'
 import DomainPage from './pages/DomainPage'
+import LessonsPage from './pages/LessonsPage'
 import ArithmeticModule from './pages/modules/ArithmeticModule'
 import AlgebraModule from './pages/modules/AlgebraModule'
 import Playground from './pages/Playground'
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/curriculum/grade/:gradeCode" element={<CurriculumPage />} />
           <Route path="/curriculum/grade/:gradeCode/domain/:domainCode" element={<DomainPage />} />
+          <Route path="/curriculum/grade/:gradeCode/domain/:domainCode/standard/:standardId/lessons" element={<LessonsPage />} />
           <Route path="/module/arithmetic" element={<ArithmeticModule />} />
           <Route path="/module/algebra" element={<AlgebraModule />} />
           <Route path="/playground" element={<Playground />} />

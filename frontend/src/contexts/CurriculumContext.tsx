@@ -501,7 +501,7 @@ export function CurriculumProvider({ children, studentId }: CurriculumProviderPr
     if (studentId) {
       actions.loadStudentProgress(studentId)
     }
-  }, [studentId, actions])
+  }, [studentId])
 
   return (
     <CurriculumContext.Provider value={{ state, actions }}>

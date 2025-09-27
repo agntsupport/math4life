@@ -35,8 +35,40 @@ async function seedData() {
     
     // Read and execute standards seeder
     console.log('🌱 Seeding standards data...');
-    const standardsSeederPath = path.join(__dirname, '..', 'database', 'seeders', 'standards.seed.sql');
-    const standardsSeederSql = fs.readFileSync(standardsSeederPath, 'utf8');
+    
+    // Try multiple possible paths for the SQL files
+    let standardsSeederPath = path.join(__dirname, '..', 'database', 'seeders', 'standards.seed.sql');
+    let standardsSeederSql;
+    
+    try {
+      standardsSeederSql = fs.readFileSync(standardsSeederPath, 'utf8');
+      console.log('Found standards seeder at:', standardsSeederPath);
+    } catch (error) {
+      console.log('Standard path failed, trying alternative paths...');
+      
+      // Try from dist directory
+      standardsSeederPath = path.join(__dirname, '..', '..', 'database', 'seeders', 'standards.seed.sql');
+      try {
+        standardsSeederSql = fs.readFileSync(standardsSeederPath, 'utf8');
+        console.log('Found standards seeder at:', standardsSeederPath);
+      } catch (error2) {
+        // Try from current working directory
+        standardsSeederPath = path.join(process.cwd(), 'database', 'seeders', 'standards.seed.sql');
+        try {
+          standardsSeederSql = fs.readFileSync(standardsSeederPath, 'utf8');
+          console.log('Found standards seeder at:', standardsSeederPath);
+        } catch (error3) {
+          console.error('Could not find standards.seed.sql file in any expected location');
+          console.error('Tried paths:');
+          console.error('1.', path.join(__dirname, '..', 'database', 'seeders', 'standards.seed.sql'));
+          console.error('2.', path.join(__dirname, '..', '..', 'database', 'seeders', 'standards.seed.sql'));
+          console.error('3.', path.join(process.cwd(), 'database', 'seeders', 'standards.seed.sql'));
+          console.error('Current working directory:', process.cwd());
+          console.error('__dirname:', __dirname);
+          throw new Error('Standards seeder SQL file not found');
+        }
+      }
+    }
     
     const standardsStatements = standardsSeederSql.split(';').filter(stmt => stmt.trim().length > 0);
     
@@ -55,8 +87,34 @@ async function seedData() {
     
     // Read and execute lessons seeder
     console.log('🌱 Seeding lessons and problems...');
-    const lessonsSeederPath = path.join(__dirname, '..', 'database', 'seeders', 'lessons.seed.sql');
-    const lessonsSeederSql = fs.readFileSync(lessonsSeederPath, 'utf8');
+    
+    // Try multiple possible paths for the lessons SQL file
+    let lessonsSeederPath = path.join(__dirname, '..', 'database', 'seeders', 'lessons.seed.sql');
+    let lessonsSeederSql;
+    
+    try {
+      lessonsSeederSql = fs.readFileSync(lessonsSeederPath, 'utf8');
+      console.log('Found lessons seeder at:', lessonsSeederPath);
+    } catch (error) {
+      console.log('Standard path failed, trying alternative paths...');
+      
+      // Try from dist directory
+      lessonsSeederPath = path.join(__dirname, '..', '..', 'database', 'seeders', 'lessons.seed.sql');
+      try {
+        lessonsSeederSql = fs.readFileSync(lessonsSeederPath, 'utf8');
+        console.log('Found lessons seeder at:', lessonsSeederPath);
+      } catch (error2) {
+        // Try from current working directory
+        lessonsSeederPath = path.join(process.cwd(), 'database', 'seeders', 'lessons.seed.sql');
+        try {
+          lessonsSeederSql = fs.readFileSync(lessonsSeederPath, 'utf8');
+          console.log('Found lessons seeder at:', lessonsSeederPath);
+        } catch (error3) {
+          console.error('Could not find lessons.seed.sql file in any expected location');
+          throw new Error('Lessons seeder SQL file not found');
+        }
+      }
+    }
     
     const lessonsStatements = lessonsSeederSql.split(';').filter(stmt => stmt.trim().length > 0);
     

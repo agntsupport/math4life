@@ -52,25 +52,45 @@ async function initDatabase() {
     
     console.log('✅ Database schema created successfully');
     
-    // Read and execute seeder
-    console.log('🌱 Seeding initial data...');
-    const seederPath = path.join(__dirname, '..', 'database', 'seeders', 'standards.seed.sql');
-    const seederSql = fs.readFileSync(seederPath, 'utf8');
+    // Read and execute standards seeder
+    console.log('🌱 Seeding standards data...');
+    const standardsSeederPath = path.join(__dirname, '..', 'database', 'seeders', 'standards.seed.sql');
+    const standardsSeederSql = fs.readFileSync(standardsSeederPath, 'utf8');
     
-    const seederStatements = seederSql.split(';').filter(stmt => stmt.trim().length > 0);
+    const standardsStatements = standardsSeederSql.split(';').filter(stmt => stmt.trim().length > 0);
     
-    for (const statement of seederStatements) {
+    for (const statement of standardsStatements) {
       if (statement.trim()) {
         try {
           await client.query(statement);
         } catch (error) {
-          console.error('Error executing seeder statement:', statement.substring(0, 100) + '...');
+          console.error('Error executing standards statement:', statement.substring(0, 100) + '...');
           console.error(error.message);
         }
       }
     }
     
-    console.log('✅ Database seeded successfully');
+    console.log('✅ Standards seeded successfully');
+    
+    // Read and execute lessons seeder
+    console.log('🌱 Seeding lessons and problems...');
+    const lessonsSeederPath = path.join(__dirname, '..', 'database', 'seeders', 'lessons.seed.sql');
+    const lessonsSeederSql = fs.readFileSync(lessonsSeederPath, 'utf8');
+    
+    const lessonsStatements = lessonsSeederSql.split(';').filter(stmt => stmt.trim().length > 0);
+    
+    for (const statement of lessonsStatements) {
+      if (statement.trim()) {
+        try {
+          await client.query(statement);
+        } catch (error) {
+          console.error('Error executing lessons statement:', statement.substring(0, 100) + '...');
+          console.error(error.message);
+        }
+      }
+    }
+    
+    console.log('✅ Lessons and problems seeded successfully');
     console.log('🎉 Database initialization complete!');
     
   } catch (error) {

@@ -331,6 +331,241 @@ INSERT INTO standards (cluster_id, code, title, description, examples, complexit
  'Solve ratio and rate problems',
  'Use ratio and rate reasoning to solve real-world and mathematical problems.',
  'If a recipe calls for 2 cups of flour for every 3 cups of milk, how much flour is needed for 9 cups of milk?', 4);
+
+-- ============================================================================
+-- COMPLETE REMAINING ELEMENTARY GRADES (4-5)
+-- ============================================================================
+
+-- Set up grade-domain relationships for Grade 4
+INSERT INTO grade_domains (grade_id, domain_id, is_primary) 
+SELECT 
+    gl.id, 
+    d.id, 
+    CASE WHEN d.code IN ('OA', 'NBT', 'NF') THEN true ELSE false END
+FROM grade_levels gl, domains d 
+WHERE gl.code = '4' AND d.code IN ('OA', 'NBT', 'NF', 'MD', 'G');
+
+-- Grade 4 Number and Operations—Fractions clusters
+INSERT INTO clusters (domain_id, grade_id, code, name, description, cluster_type) VALUES
+((SELECT id FROM domains WHERE code = 'NF'), (SELECT id FROM grade_levels WHERE code = '4'), 
+ '4.NF.A', 'Extend understanding of fraction equivalence and ordering', 
+ 'Students build fractions from unit fractions and understand fraction equivalence', 'major'),
+((SELECT id FROM domains WHERE code = 'NF'), (SELECT id FROM grade_levels WHERE code = '4'), 
+ '4.NF.B', 'Build fractions from unit fractions', 
+ 'Students compose and decompose fractions using unit fractions', 'major'),
+((SELECT id FROM domains WHERE code = 'NF'), (SELECT id FROM grade_levels WHERE code = '4'), 
+ '4.NF.C', 'Understand decimal notation for fractions', 
+ 'Students express fractions with denominators of 10 and 100 as decimal numbers', 'supporting');
+
+-- Grade 4 Fractions standards
+INSERT INTO standards (cluster_id, code, title, description, examples, complexity_level) VALUES
+((SELECT id FROM clusters WHERE code = '4.NF.A'), '4.NF.A.1', 
+ 'Explain fraction equivalence',
+ 'Explain why a fraction a/b is equivalent to a fraction (n×a)/(n×b) by using visual fraction models.',
+ 'Show that 1/2 = 2/4 = 3/6 using fraction circles or number lines.', 3),
+
+((SELECT id FROM clusters WHERE code = '4.NF.A'), '4.NF.A.2', 
+ 'Compare fractions with different denominators',
+ 'Compare two fractions with different numerators and denominators by creating common denominators.',
+ 'Compare 3/4 and 5/6: Convert to 9/12 and 10/12, so 5/6 > 3/4.', 4),
+
+((SELECT id FROM clusters WHERE code = '4.NF.B'), '4.NF.B.3', 
+ 'Add and subtract fractions with like denominators',
+ 'Understand addition and subtraction of fractions as joining and separating parts.',
+ 'Solve 3/8 + 2/8 = 5/8 and 7/10 - 3/10 = 4/10.', 3),
+
+((SELECT id FROM clusters WHERE code = '4.NF.B'), '4.NF.B.4', 
+ 'Multiply fractions by whole numbers',
+ 'Apply and extend understanding of multiplication to multiply a fraction by a whole number.',
+ 'Calculate 3 × (2/5) = 6/5 = 1 1/5. Solve: "How much is 4 groups of 1/3?"', 4),
+
+((SELECT id FROM clusters WHERE code = '4.NF.C'), '4.NF.C.5', 
+ 'Express fractions as decimals',
+ 'Express a fraction with denominator 10 as an equivalent fraction with denominator 100.',
+ 'Write 3/10 = 30/100 = 0.30. Express 7/100 as 0.07.', 3),
+
+((SELECT id FROM clusters WHERE code = '4.NF.C'), '4.NF.C.6', 
+ 'Use decimal notation and compare decimals',
+ 'Use decimal notation for fractions with denominators 10 or 100 and compare decimal numbers.',
+ 'Compare 0.3 and 0.27: Since 0.30 > 0.27, we have 0.3 > 0.27.', 4);
+
+-- Set up grade-domain relationships for Grade 5
+INSERT INTO grade_domains (grade_id, domain_id, is_primary) 
+SELECT 
+    gl.id, 
+    d.id, 
+    CASE WHEN d.code IN ('OA', 'NBT', 'NF') THEN true ELSE false END
+FROM grade_levels gl, domains d 
+WHERE gl.code = '5' AND d.code IN ('OA', 'NBT', 'NF', 'MD', 'G');
+
+-- Grade 5 Number and Operations—Fractions clusters
+INSERT INTO clusters (domain_id, grade_id, code, name, description, cluster_type) VALUES
+((SELECT id FROM domains WHERE code = 'NF'), (SELECT id FROM grade_levels WHERE code = '5'), 
+ '5.NF.A', 'Add and subtract fractions with unlike denominators', 
+ 'Students use equivalent fractions to add and subtract fractions', 'major'),
+((SELECT id FROM domains WHERE code = 'NF'), (SELECT id FROM grade_levels WHERE code = '5'), 
+ '5.NF.B', 'Apply and extend understanding of multiplication and division', 
+ 'Students multiply and divide fractions and mixed numbers', 'major');
+
+-- Grade 5 Fractions standards
+INSERT INTO standards (cluster_id, code, title, description, examples, complexity_level) VALUES
+((SELECT id FROM clusters WHERE code = '5.NF.A'), '5.NF.A.1', 
+ 'Add and subtract fractions with unlike denominators',
+ 'Add and subtract fractions with unlike denominators by replacing given fractions with equivalent fractions.',
+ 'Calculate 1/4 + 1/6: Find common denominator 12, so 3/12 + 2/12 = 5/12.', 4),
+
+((SELECT id FROM clusters WHERE code = '5.NF.A'), '5.NF.A.2', 
+ 'Solve word problems involving addition and subtraction of fractions',
+ 'Solve word problems involving addition and subtraction of fractions referring to the same whole.',
+ 'Maria ate 1/4 of a pizza and Jose ate 1/3 of the same pizza. How much did they eat together?', 5),
+
+((SELECT id FROM clusters WHERE code = '5.NF.B'), '5.NF.B.3', 
+ 'Interpret multiplication of fractions',
+ 'Interpret a fraction as division of the numerator by the denominator.',
+ 'Understand that 3/4 means 3 ÷ 4. Calculate 2 × (3/5) using area models.', 4),
+
+((SELECT id FROM clusters WHERE code = '5.NF.B'), '5.NF.B.4', 
+ 'Multiply fractions and mixed numbers',
+ 'Apply and extend understanding of multiplication to multiply fractions and mixed numbers.',
+ 'Calculate 2 1/3 × 1 1/2. Convert to improper fractions: 7/3 × 3/2 = 21/6 = 3 1/2.', 5),
+
+((SELECT id FROM clusters WHERE code = '5.NF.B'), '5.NF.B.5', 
+ 'Interpret division of fractions',
+ 'Interpret division of a unit fraction by a non-zero whole number.',
+ 'If 1/3 of a ribbon is divided equally among 4 people, how much does each person get? 1/3 ÷ 4 = 1/12.', 5);
+
+-- ============================================================================
+-- MIDDLE SCHOOL EXPANSION (Grades 7-8)
+-- ============================================================================
+
+-- Set up grade-domain relationships for Grade 7
+INSERT INTO grade_domains (grade_id, domain_id, is_primary) 
+SELECT 
+    gl.id, 
+    d.id, 
+    CASE WHEN d.code IN ('RP', 'NS', 'EE') THEN true ELSE false END
+FROM grade_levels gl, domains d 
+WHERE gl.code = '7' AND d.code IN ('RP', 'NS', 'EE', 'G', 'SP');
+
+-- Grade 7 The Number System clusters
+INSERT INTO clusters (domain_id, grade_id, code, name, description, cluster_type) VALUES
+((SELECT id FROM domains WHERE code = 'NS'), (SELECT id FROM grade_levels WHERE code = '7'), 
+ '7.NS.A', 'Apply and extend understanding of operations with fractions', 
+ 'Students add, subtract, multiply, and divide rational numbers', 'major'),
+((SELECT id FROM domains WHERE code = 'NS'), (SELECT id FROM grade_levels WHERE code = '7'), 
+ '7.NS.B', 'Apply and extend understanding of addition and subtraction', 
+ 'Students understand addition and subtraction of rational numbers', 'major'),
+((SELECT id FROM domains WHERE code = 'NS'), (SELECT id FROM grade_levels WHERE code = '7'), 
+ '7.NS.C', 'Apply and extend understanding of multiplication and division', 
+ 'Students multiply and divide rational numbers', 'major');
+
+-- Grade 7 Number System standards
+INSERT INTO standards (cluster_id, code, title, description, examples, complexity_level) VALUES
+((SELECT id FROM clusters WHERE code = '7.NS.A'), '7.NS.A.1', 
+ 'Apply properties of operations with rational numbers',
+ 'Apply and extend understanding of addition and subtraction to add and subtract rational numbers.',
+ 'Calculate (-3) + 5 = 2. Understand that 7 + (-4) = 7 - 4 = 3.', 3),
+
+((SELECT id FROM clusters WHERE code = '7.NS.A'), '7.NS.A.2', 
+ 'Multiply and divide rational numbers',
+ 'Apply and extend understanding of multiplication and division to multiply and divide rational numbers.',
+ 'Calculate (-2) × 3 = -6 and (-12) ÷ (-4) = 3. Understand sign rules.', 4),
+
+((SELECT id FROM clusters WHERE code = '7.NS.A'), '7.NS.A.3', 
+ 'Solve real-world problems with rational numbers',
+ 'Solve real-world and mathematical problems involving the four operations with rational numbers.',
+ 'Temperature drops 15°F from 8°F. What is the new temperature? 8 + (-15) = -7°F.', 4);
+
+-- Set up grade-domain relationships for Grade 8
+INSERT INTO grade_domains (grade_id, domain_id, is_primary) 
+SELECT 
+    gl.id, 
+    d.id, 
+    CASE WHEN d.code IN ('NS', 'EE', 'F') THEN true ELSE false END
+FROM grade_levels gl, domains d 
+WHERE gl.code = '8' AND d.code IN ('NS', 'EE', 'F', 'G', 'SP');
+
+-- Grade 8 Functions clusters (NEW DOMAIN!)
+INSERT INTO clusters (domain_id, grade_id, code, name, description, cluster_type) VALUES
+((SELECT id FROM domains WHERE code = 'F'), (SELECT id FROM grade_levels WHERE code = '8'), 
+ '8.F.A', 'Define, evaluate, and compare functions', 
+ 'Students understand functions as relationships between inputs and outputs', 'major'),
+((SELECT id FROM domains WHERE code = 'F'), (SELECT id FROM grade_levels WHERE code = '8'), 
+ '8.F.B', 'Use functions to model relationships between quantities', 
+ 'Students model linear relationships using functions', 'major');
+
+-- Grade 8 Functions standards
+INSERT INTO standards (cluster_id, code, title, description, examples, complexity_level) VALUES
+((SELECT id FROM clusters WHERE code = '8.F.A'), '8.F.A.1', 
+ 'Understand functions',
+ 'Understand that a function is a rule that assigns exactly one output to each input.',
+ 'The rule "double the input" gives f(3) = 6, f(5) = 10. Is "x → x²" a function?', 3),
+
+((SELECT id FROM clusters WHERE code = '8.F.A'), '8.F.A.2', 
+ 'Compare functions represented differently',
+ 'Compare properties of two functions each represented in a different way.',
+ 'Compare a function given by a table vs. one given by an equation like y = 2x + 1.', 4),
+
+((SELECT id FROM clusters WHERE code = '8.F.A'), '8.F.A.3', 
+ 'Interpret functions in context',
+ 'Interpret the equation y = mx + b as defining a linear function.',
+ 'In y = 3x + 2, the slope is 3 and y-intercept is 2. What does this mean in context?', 4),
+
+((SELECT id FROM clusters WHERE code = '8.F.B'), '8.F.B.4', 
+ 'Construct functions to model linear relationships',
+ 'Construct a function to model a linear relationship between two quantities.',
+ 'A gym charges $20 to join plus $5 per visit. Write a function for total cost.', 5),
+
+((SELECT id FROM clusters WHERE code = '8.F.B'), '8.F.B.5', 
+ 'Describe qualitative features of functions',
+ 'Describe qualitatively the functional relationship between two quantities.',
+ 'As time increases, how does the height of a ball thrown upward change?', 4);
+
+-- ============================================================================
+-- GEOMETRY STANDARDS ACROSS GRADES
+-- ============================================================================
+
+-- Kindergarten Geometry
+INSERT INTO clusters (domain_id, grade_id, code, name, description, cluster_type) VALUES
+((SELECT id FROM domains WHERE code = 'G'), (SELECT id FROM grade_levels WHERE code = 'K'), 
+ 'K.G.A', 'Identify and describe shapes', 
+ 'Students identify, describe, and analyze shapes', 'supporting'),
+((SELECT id FROM domains WHERE code = 'G'), (SELECT id FROM grade_levels WHERE code = 'K'), 
+ 'K.G.B', 'Analyze, compare, and compose shapes', 
+ 'Students compose simple shapes to form larger shapes', 'supporting');
+
+INSERT INTO standards (cluster_id, code, title, description, examples, complexity_level) VALUES
+((SELECT id FROM clusters WHERE code = 'K.G.A'), 'K.G.A.1', 
+ 'Describe objects in the environment using names of shapes',
+ 'Describe objects in the environment using names of shapes and describe relative positions.',
+ 'Point out rectangles, circles, triangles, and squares in the classroom. Use words like above, below, beside.', 1),
+
+((SELECT id FROM clusters WHERE code = 'K.G.A'), 'K.G.A.2', 
+ 'Name shapes regardless of orientation or size',
+ 'Correctly name shapes regardless of their orientations or overall size.',
+ 'Recognize a triangle whether it points up, down, or sideways. Identify large and small circles as circles.', 2),
+
+((SELECT id FROM clusters WHERE code = 'K.G.B'), 'K.G.B.6', 
+ 'Compose simple shapes to form larger shapes',
+ 'Compose simple shapes to form larger shapes.',
+ 'Use two triangles to make a rectangle. Combine pattern blocks to create new designs.', 3);
+
+-- Grade 3 Geometry
+INSERT INTO clusters (domain_id, grade_id, code, name, description, cluster_type) VALUES
+((SELECT id FROM domains WHERE code = 'G'), (SELECT id FROM grade_levels WHERE code = '3'), 
+ '3.G.A', 'Reason with shapes and their attributes', 
+ 'Students understand that shapes can be classified by their attributes', 'supporting');
+
+INSERT INTO standards (cluster_id, code, title, description, examples, complexity_level) VALUES
+((SELECT id FROM clusters WHERE code = '3.G.A'), '3.G.A.1', 
+ 'Understand categories of shapes',
+ 'Understand that shapes in different categories may share attributes.',
+ 'Rectangles and squares both have 4 right angles. Rhombuses and squares both have 4 equal sides.', 3),
+
+((SELECT id FROM clusters WHERE code = '3.G.A'), '3.G.A.2', 
+ 'Partition shapes into equal areas',
+ 'Partition shapes into parts with equal areas and express area as a unit fraction.',
+ 'Divide a rectangle into 6 equal parts. Each part is 1/6 of the whole area.', 4);
  'Find 10 - 8 by finding the number that makes 10 when added to 8: 8 + ? = 10', 4),
 
 ((SELECT id FROM clusters WHERE code = '1.OA.C'), '1.OA.C.5', 

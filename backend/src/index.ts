@@ -10,6 +10,7 @@ import { logger } from './utils/logger'
 import mathRoutes from './routes/math.routes'
 import healthRoutes from './routes/health.routes'
 import createGradeLevelRoutes from './routes/gradeLevel.routes'
+import createLessonRoutes from './routes/lesson.routes'
 
 dotenv.config()
 
@@ -86,6 +87,7 @@ pool.connect()
 app.use('/api/math', mathRoutes)
 app.use('/api/health', healthRoutes)
 app.use('/api/grade-levels', createGradeLevelRoutes(pool))
+app.use('/api', createLessonRoutes(pool))
 
 app.get('/api', (_req, res) => {
   res.json({
@@ -94,7 +96,9 @@ app.get('/api', (_req, res) => {
       math: '/api/math',
       health: '/api/health',
       gradeLevels: '/api/grade-levels',
-      curriculum: '/api/grade-levels/:code/domains'
+      curriculum: '/api/grade-levels/:code/domains',
+      lessons: '/api/standards/:standardId/lessons',
+      problems: '/api/lessons/:lessonId/problems'
     }
   })
 })

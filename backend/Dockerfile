@@ -44,6 +44,10 @@ RUN npm ci --only=production
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
 
+# Copy scripts and database directories for initialization
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/database ./database
+
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
   CMD curl -f http://localhost/api/health || exit 1
